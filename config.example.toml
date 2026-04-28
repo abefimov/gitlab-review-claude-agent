@@ -1,0 +1,113 @@
+[gitlab]
+base_url = "https://gitlab.com"
+bot_username = "claude-reviewer"
+
+[poll]
+interval_seconds = 60
+per_project_backoff_multiplier = 2
+stale_mr_ignore_days = 30
+
+[claude]
+cli_binary = "claude"
+model = "sonnet"
+max_turns = 40
+timeout_seconds = 600
+
+[repo]
+root = "./repos"
+clone_mode = "blobless"
+worktree_root = "/tmp/claude-review"
+fetch_timeout_seconds = 60
+worktree_timeout_seconds = 120
+
+[review]
+max_inline_comments = 10
+dry_run = true
+language = "english"
+visible_tag_prefix = "**[Claude Review]**"
+daily_cost_limit_usd = 5.0
+hourly_tasks_per_project_limit = 20
+
+[paths]
+state_db = "./state.db"
+logs_dir = "./logs"
+
+# Stack-level defaults — applied to projects whose `stack` matches.
+# Project-level `ignore_paths` are merged on top of these (additive).
+
+[stacks.python-backend]
+ignore_paths = [
+  "uv.lock",
+  "poetry.lock",
+  "Pipfile.lock",
+  ".python-version",
+  "__pycache__/**",
+  "*.pyc",
+  "*.pyo",
+  ".venv/**",
+  "venv/**",
+  "*.egg-info/**",
+  "dist/**",
+  "build/**",
+  ".pytest_cache/**",
+  ".mypy_cache/**",
+  ".ruff_cache/**",
+  ".coverage",
+  "htmlcov/**",
+  # Optional — uncomment if applicable:
+  # "**/migrations/*.py",
+  # "**/alembic/versions/*.py",
+  # "*_pb2.py",
+  # "*_pb2_grpc.py",
+]
+
+[stacks.swift-ios]
+ignore_paths = [
+  "Podfile.lock",
+  "Pods/**",
+  "*.pbxproj",
+  "*.xcworkspace/**",
+  "*.xcuserstate",
+  "*.generated.*",
+  "DerivedData/**",
+]
+
+[stacks.kotlin-android]
+ignore_paths = [
+  "**/build/**",
+  "*.iml",
+  "gradle/wrapper/**",
+  "local.properties",
+  ".gradle/**",
+]
+
+[stacks.typescript-frontend]
+ignore_paths = [
+  "package-lock.json",
+  "yarn.lock",
+  "pnpm-lock.yaml",
+  "bun.lockb",
+  "node_modules/**",
+  "dist/**",
+  ".next/**",
+  ".nuxt/**",
+  "build/**",
+]
+
+[stacks.java-e2e]
+ignore_paths = [
+  "target/**",
+  "*.class",
+  "*.jar",
+  ".idea/**",
+  "*.iml",
+]
+
+# Example project entry (copy and adapt)
+[[projects]]
+id = 42
+path = "group/repo/ios-app"
+stack = "swift-ios"
+review_enabled = true
+target_branches = ["develop", "main"]
+ignore_paths = ["Podfile.lock", "*.pbxproj", "*.generated.*", "Pods/**"]

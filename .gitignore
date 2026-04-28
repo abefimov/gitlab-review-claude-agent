@@ -1,0 +1,35 @@
+# Local config and secrets
+.env
+config.toml
+
+# Internal design docs — not published
+docs/
+
+# Runtime state
+state.db
+state.db-journal
+state.db-wal
+state.db-shm
+repos/
+logs/
+metrics.json
+STOP
+review-output.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store

@@ -1,0 +1,39 @@
+[gitlab]
+base_url = "https://gitlab.example.com"
+bot_username = "claude-reviewer"
+
+[poll]
+interval_seconds = 60
+
+[claude]
+cli_binary = "claude"
+model = "sonnet"
+max_turns = 40
+timeout_seconds = 600
+
+[repo]
+root = "./repos"
+clone_mode = "blobless"
+worktree_root = "/tmp/claude-review"
+fetch_timeout_seconds = 60
+worktree_timeout_seconds = 120
+
+[review]
+max_inline_comments = 10
+dry_run = true
+language = "english"
+visible_tag_prefix = "**[Claude Review]**"
+daily_cost_limit_usd = 5.0
+hourly_tasks_per_project_limit = 20
+
+[paths]
+state_db = "./state.db"
+logs_dir = "./logs"
+
+[[projects]]
+id = 42
+path = "example/mobile/sample-ios"
+stack = "swift-ios"
+review_enabled = true
+target_branches = ["develop", "main"]
+ignore_paths = ["Podfile.lock", "*.pbxproj"]
